@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique @db.VarChar(50)
+  email      String   @unique @db.VarChar(120)
+  password   String   @db.VarChar(255)
+  phone_no   String   @unique @db.VarChar(15)
+  created_at DateTime @default(now())
+
+  ownedLeagues League[]       @relation("LeagueOwner")
+  memberships  LeagueMember[]
+  teams        Team[]
+  points       Points[]
+}
+
+enum LeagueType {
+  PUBLIC
+  PRIVATE
+}
+
+model League {
+  id          Int            @id @default(autoincrement())
+  name        String         @db.VarChar(100)
+  code        String         @unique @db.Char(6)
+  ownerId     Int?
+  createdAt   DateTime       @default(now())
+  league_type LeagueType     @default(PRIVATE)
+  owner       User?          @relation("LeagueOwner", fields: [ownerId], references: [id])
+  members     LeagueMember[]
+  points      Points[]
+  teams       Team[]
+}
+
+model LeagueMember {
+  id       Int      @id @default(autoincrement())
+  leagueId Int
+  userId   Int
+  joinedAt DateTime @default(now())
+
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([leagueId, userId])
+}
+
+model Driver {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(100)
+  number Int?
+  active Boolean @default(true)
+
+  constructorId Int?
+  constructor   Constructor? @relation(fields: [constructorId], references: [id])
+  predictions   Prediction[]
+  raceResults   RaceResult[]
+}
+
+model Constructor {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(100)
+  active Boolean @default(true)
+
+  drivers Driver[] // one constructor → many drivers
+  teams   Team[]
+}
+
+enum RaceStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+}
+
+model Race {
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar(100)
+  circuit  String?  @db.VarChar(100)
+  raceDate DateTime @db.Date
+  season   Int
+
+  raceStart DateTime
+  raceEnd   DateTime?
+
+  status      RaceStatus   @default(SCHEDULED)
+  teams       Team[]
+  raceResults RaceResult[]
+  points      Points[]
+
+  @@index([season, raceDate])
+}
+
+model Team {
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  raceId        Int
+  leagueId      Int
+  locked        Boolean @default(false)
+  constructorId Int?
+  user          User    @relation(fields: [userId], references: [id])
+  race          Race    @relation(fields: [raceId], references: [id])
+  league        League  @relation(fields: [leagueId], references: [id])
+
+  constructor Constructor? @relation(fields: [constructorId], references: [id])
+
+  predictions Prediction[]
+
+  @@unique([userId, raceId, leagueId])
+}
+
+model Prediction {
+  id       Int @id @default(autoincrement())
+  teamId   Int
+  driverId Int
+
+  predictedPosition Int?
+  predictedDNF      Boolean @default(false)
+
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, driverId])
+  @@index([teamId])
+  @@index([driverId])
+}
+
+model RaceResult {
+  id       Int @id @default(autoincrement())
+  raceId   Int
+  driverId Int
+
+  finishPosition Int?
+  dnf            Boolean @default(false)
+  fastestLap     Boolean @default(false)
+
+  race   Race   @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@unique([raceId, driverId])
+  @@index([raceId])
+  @@index([driverId])
+}
+
+model Points {
+  id       Int @id @default(autoincrement())
+  userId   Int
+  raceId   Int
+  leagueId Int
+
+  totalPts  Int   @default(0)
+  breakdown Json?
+
+  user   User   @relation(fields: [userId], references: [id])
+  race   Race   @relation(fields: [raceId], references: [id])
+  league League @relation(fields: [leagueId], references: [id])
+
+  @@unique([userId, raceId, leagueId])
+  @@index([leagueId])
+}
