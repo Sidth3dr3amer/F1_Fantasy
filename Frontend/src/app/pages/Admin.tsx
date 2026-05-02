@@ -307,12 +307,12 @@ export function Admin() {
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="text-sm text-zinc-400 mr-2">Simulation: <span className={`font-medium ${simRunning ? 'text-emerald-400' : 'text-zinc-500'}`}>{simRunning ? 'Running' : 'Stopped'}</span></div>
-                            <button onClick={recalcOnly} disabled={saving} className="px-3 py-1 bg-amber-700 hover:bg-amber-600 rounded text-sm">Recalculate Only</button>
-                            <button onClick={saveResults} disabled={saving} className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">Save & Recalculate</button>
+                            <button onClick={recalcOnly} disabled={saving} className="px-3 py-1 bg-amber-700 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Recalculate Only</button>
+                            <button onClick={saveResults} disabled={saving} className="px-3 py-1 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Save & Recalculate</button>
                             {simRunning ? (
-                                <button onClick={stopSimulation} disabled={simLoading} className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 rounded text-sm">Stop Simulation</button>
+                                <button onClick={stopSimulation} disabled={simLoading} className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Stop Simulation</button>
                             ) : (
-                                <button onClick={startSimulation} disabled={simLoading} className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 rounded text-sm">Start Simulation</button>
+                                <button onClick={startSimulation} disabled={simLoading} className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Start Simulation</button>
                             )}
                         </div>
                     </div>
