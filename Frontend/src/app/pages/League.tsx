@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { Users, Trophy, ChevronLeft, Plus, ChevronRight } from "lucide-react";
 import { format, parseISO } from "date-fns";
@@ -32,25 +32,35 @@ type Race = {
     id: number;
     name: string;
     status: string;
+    raceDate?: string;
+    raceStart?: string;
+    raceEnd?: string;
 };
 
+type RaceResult = {
+    driver_id: number;
+    driver_name: string;
+    finish_pos: number | null;
+    fastest_lap: boolean;
+    dnf: boolean;
+    points: number;
+};
 export function League() {
     const { leagueId } = useParams();
     const [activeTab, setActiveTab] = useState<"leaderboard" | "members" | "races">("leaderboard");
     const [league, setLeague] = useState<LeagueDetails | null>(null);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [races, setRaces] = useState<Race[]>([]);
+    const [currentRace, setCurrentRace] = useState<Race | null>(null);
+    const [currentRaceResults, setCurrentRaceResults] = useState<RaceResult[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-
+    const pollingRef = useRef(false);
     useEffect(() => {
         let cancelled = false;
 
-        async function loadLeague() {
-            if (!leagueId) {
-                setLoading(false);
-                return;
-            }
+        async function loadInitial() {
+            if (!leagueId) return;
 
             try {
                 setLoading(true);
@@ -67,6 +77,41 @@ export function League() {
                 setLeague(leagueData);
                 setLeaderboard(leaderboardData);
                 setRaces(raceData);
+
+                // pick current race
+                let picked: Race | null = null;
+
+                if (raceData?.length) {
+                    const ongoing = raceData.find(
+                        (r: Race) => (r.status || "").toUpperCase() === "ONGOING"
+                    );
+
+                    if (ongoing) {
+                        picked = ongoing;
+                    } else {
+                        const completed = raceData
+                            .filter((r: Race) => (r.status || "").toUpperCase() === "COMPLETED")
+                            .sort(
+                                (a: Race, b: Race) =>
+                                    (b.raceDate ? new Date(b.raceDate).getTime() : 0) -
+                                    (a.raceDate ? new Date(a.raceDate).getTime() : 0)
+                            );
+
+                        picked = completed[0] || raceData[raceData.length - 1];
+                    }
+                }
+
+                setCurrentRace(picked);
+
+                // load race results ONCE
+                if (picked) {
+                    try {
+                        const results = await api.get(`/results/${picked.id}`);
+                        if (!cancelled) setCurrentRaceResults(results || []);
+                    } catch {
+                        if (!cancelled) setCurrentRaceResults([]);
+                    }
+                }
             } catch (err) {
                 if (!cancelled) {
                     setError(err instanceof Error ? err.message : "Failed to load league");
@@ -76,13 +121,67 @@ export function League() {
             }
         }
 
-        loadLeague();
+        loadInitial();
 
         return () => {
             cancelled = true;
         };
     }, [leagueId]);
 
+    useEffect(() => {
+        if (activeTab !== "leaderboard" || !leagueId) return;
+
+        if (pollingRef.current) return; // 🚫 prevent duplicate loops
+        pollingRef.current = true;
+
+        let cancelled = false;
+
+        async function poll() {
+            while (!cancelled) {
+                try {
+                    const data = await api.get(`/leaderboard/${leagueId}`);
+                    if (!cancelled) setLeaderboard(data);
+                } catch { }
+
+                await new Promise((res) => setTimeout(res, 3000));
+            }
+        }
+
+        poll();
+
+        return () => {
+            cancelled = true;
+            pollingRef.current = false;
+        };
+    }, [activeTab, leagueId]);
+    useEffect(() => { /* initial load */ }, [leagueId]);
+
+    useEffect(() => { /* leaderboard polling */ }, [activeTab, leagueId]);
+
+    // 👇 ADD THIS HERE
+    useEffect(() => {
+        if (!leagueId || !currentRace) return;
+        if (currentRace.status !== "ONGOING") return;
+
+        let cancelled = false;
+
+        async function pollRace() {
+            while (!cancelled) {
+                try {
+                    const results = await api.get(`/results/${currentRace.id}`);
+                    if (!cancelled) setCurrentRaceResults(results || []);
+                } catch { }
+
+                await new Promise((res) => setTimeout(res, 3000));
+            }
+        }
+
+        pollRace();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [currentRace, leagueId]);
     if (!leagueId) return <AllLeaguesView />;
 
     if (loading) {
@@ -190,6 +289,37 @@ export function League() {
                     {leaderboard.length === 0 && (
                         <div className="p-6 text-sm text-zinc-500">No leaderboard points yet.</div>
                     )}
+                    {currentRace && currentRaceResults && currentRaceResults.length > 0 && (
+                        <div className="p-6 border-t border-zinc-800">
+                            <div className="mb-3">
+                                <div className="text-xs text-zinc-400 uppercase tracking-wide">Current Race Order</div>
+                                <div className="font-medium text-white">{currentRace.name} (#{currentRace.id})</div>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse min-w-[480px]">
+                                    <thead>
+                                        <tr className="border-b border-zinc-800 text-xs text-zinc-400">
+                                            <th className="px-4 py-2">Pos</th>
+                                            <th className="px-4 py-2">Driver</th>
+                                            <th className="px-4 py-2 text-right">Points</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[...currentRaceResults]
+                                            .sort((a, b) => (a.finish_pos ?? 999) - (b.finish_pos ?? 999))
+                                            .map((r) => (
+                                                <tr key={r.driver_id} className="border-b border-zinc-800 hover:bg-zinc-800/20">
+                                                    <td className="px-4 py-3 text-zinc-300">{r.finish_pos ?? 'DNF'}</td>
+                                                    <td className="px-4 py-3 text-white">{r.driver_name}</td>
+                                                    <td className="px-4 py-3 text-right font-mono text-red-400">{r.points}</td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -207,8 +337,10 @@ export function League() {
             {activeTab === "races" && (
                 <div className="space-y-3">
                     {races.map((race) => {
-                        const isCompleted = race.status === "Completed";
-                        const isOngoing = race.status === "Ongoing";
+                        const statusUpper = (race.status || '').toString().toUpperCase();
+                        const isCompleted = statusUpper === 'COMPLETED';
+                        const isOngoing = statusUpper === 'ONGOING';
+                        const prettyStatus = statusUpper ? statusUpper.charAt(0) + statusUpper.slice(1).toLowerCase() : '';
 
                         return (
                             <Link
@@ -219,7 +351,7 @@ export function League() {
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <div className="font-medium text-white">{race.name}</div>
-                                        <div className="text-sm text-zinc-500 mt-1">Status: {race.status}</div>
+                                        <div className="text-sm text-zinc-500 mt-1">Status: {prettyStatus}</div>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <Trophy className="w-5 h-5 text-zinc-600" />
