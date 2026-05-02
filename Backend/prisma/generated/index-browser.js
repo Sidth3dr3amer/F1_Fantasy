@@ -126,7 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   phone_no: 'phone_no',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  role: 'role'
 };
 
 exports.Prisma.LeagueScalarFieldEnum = {
@@ -150,13 +151,17 @@ exports.Prisma.DriverScalarFieldEnum = {
   name: 'name',
   number: 'number',
   active: 'active',
+  price: 'price',
+  points: 'points',
   constructorId: 'constructorId'
 };
 
 exports.Prisma.ConstructorScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  active: 'active'
+  active: 'active',
+  price: 'price',
+  points: 'points'
 };
 
 exports.Prisma.RaceScalarFieldEnum = {
@@ -230,6 +235,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
 exports.LeagueType = exports.$Enums.LeagueType = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE'

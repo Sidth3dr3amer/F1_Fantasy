@@ -84,6 +84,14 @@ export const RaceStatus: {
 
 export type RaceStatus = (typeof RaceStatus)[keyof typeof RaceStatus]
 
+
+export const Role: {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+export type Role = (typeof Role)[keyof typeof Role]
+
 }
 
 export type LeagueType = $Enums.LeagueType
@@ -93,6 +101,10 @@ export const LeagueType: typeof $Enums.LeagueType
 export type RaceStatus = $Enums.RaceStatus
 
 export const RaceStatus: typeof $Enums.RaceStatus
+
+export type Role = $Enums.Role
+
+export const Role: typeof $Enums.Role
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2008,6 +2020,7 @@ export namespace Prisma {
     password: string | null
     phone_no: string | null
     created_at: Date | null
+    role: $Enums.Role | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2017,6 +2030,7 @@ export namespace Prisma {
     password: string | null
     phone_no: string | null
     created_at: Date | null
+    role: $Enums.Role | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2026,6 +2040,7 @@ export namespace Prisma {
     password: number
     phone_no: number
     created_at: number
+    role: number
     _all: number
   }
 
@@ -2045,6 +2060,7 @@ export namespace Prisma {
     password?: true
     phone_no?: true
     created_at?: true
+    role?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2054,6 +2070,7 @@ export namespace Prisma {
     password?: true
     phone_no?: true
     created_at?: true
+    role?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2063,6 +2080,7 @@ export namespace Prisma {
     password?: true
     phone_no?: true
     created_at?: true
+    role?: true
     _all?: true
   }
 
@@ -2159,6 +2177,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at: Date
+    role: $Enums.Role
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -2187,6 +2206,7 @@ export namespace Prisma {
     password?: boolean
     phone_no?: boolean
     created_at?: boolean
+    role?: boolean
     ownedLeagues?: boolean | User$ownedLeaguesArgs<ExtArgs>
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     teams?: boolean | User$teamsArgs<ExtArgs>
@@ -2201,6 +2221,7 @@ export namespace Prisma {
     password?: boolean
     phone_no?: boolean
     created_at?: boolean
+    role?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2210,6 +2231,7 @@ export namespace Prisma {
     password?: boolean
     phone_no?: boolean
     created_at?: boolean
+    role?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2219,9 +2241,10 @@ export namespace Prisma {
     password?: boolean
     phone_no?: boolean
     created_at?: boolean
+    role?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "phone_no" | "created_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "password" | "phone_no" | "created_at" | "role", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownedLeagues?: boolean | User$ownedLeaguesArgs<ExtArgs>
     memberships?: boolean | User$membershipsArgs<ExtArgs>
@@ -2247,6 +2270,7 @@ export namespace Prisma {
       password: string
       phone_no: string
       created_at: Date
+      role: $Enums.Role
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2680,6 +2704,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly phone_no: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
+    readonly role: FieldRef<"User", 'Role'>
   }
     
 
@@ -5521,12 +5546,16 @@ export namespace Prisma {
   export type DriverAvgAggregateOutputType = {
     id: number | null
     number: number | null
+    price: number | null
+    points: number | null
     constructorId: number | null
   }
 
   export type DriverSumAggregateOutputType = {
     id: number | null
     number: number | null
+    price: number | null
+    points: number | null
     constructorId: number | null
   }
 
@@ -5535,6 +5564,8 @@ export namespace Prisma {
     name: string | null
     number: number | null
     active: boolean | null
+    price: number | null
+    points: number | null
     constructorId: number | null
   }
 
@@ -5543,6 +5574,8 @@ export namespace Prisma {
     name: string | null
     number: number | null
     active: boolean | null
+    price: number | null
+    points: number | null
     constructorId: number | null
   }
 
@@ -5551,6 +5584,8 @@ export namespace Prisma {
     name: number
     number: number
     active: number
+    price: number
+    points: number
     constructorId: number
     _all: number
   }
@@ -5559,12 +5594,16 @@ export namespace Prisma {
   export type DriverAvgAggregateInputType = {
     id?: true
     number?: true
+    price?: true
+    points?: true
     constructorId?: true
   }
 
   export type DriverSumAggregateInputType = {
     id?: true
     number?: true
+    price?: true
+    points?: true
     constructorId?: true
   }
 
@@ -5573,6 +5612,8 @@ export namespace Prisma {
     name?: true
     number?: true
     active?: true
+    price?: true
+    points?: true
     constructorId?: true
   }
 
@@ -5581,6 +5622,8 @@ export namespace Prisma {
     name?: true
     number?: true
     active?: true
+    price?: true
+    points?: true
     constructorId?: true
   }
 
@@ -5589,6 +5632,8 @@ export namespace Prisma {
     name?: true
     number?: true
     active?: true
+    price?: true
+    points?: true
     constructorId?: true
     _all?: true
   }
@@ -5684,6 +5729,8 @@ export namespace Prisma {
     name: string
     number: number | null
     active: boolean
+    price: number
+    points: number
     constructorId: number | null
     _count: DriverCountAggregateOutputType | null
     _avg: DriverAvgAggregateOutputType | null
@@ -5711,6 +5758,8 @@ export namespace Prisma {
     name?: boolean
     number?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
     constructorId?: boolean
     constructor?: boolean | Driver$constructorArgs<ExtArgs>
     predictions?: boolean | Driver$predictionsArgs<ExtArgs>
@@ -5723,6 +5772,8 @@ export namespace Prisma {
     name?: boolean
     number?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
     constructorId?: boolean
     constructor?: boolean | Driver$constructorArgs<ExtArgs>
   }, ExtArgs["result"]["driver"]>
@@ -5732,6 +5783,8 @@ export namespace Prisma {
     name?: boolean
     number?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
     constructorId?: boolean
     constructor?: boolean | Driver$constructorArgs<ExtArgs>
   }, ExtArgs["result"]["driver"]>
@@ -5741,10 +5794,12 @@ export namespace Prisma {
     name?: boolean
     number?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
     constructorId?: boolean
   }
 
-  export type DriverOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "number" | "active" | "constructorId", ExtArgs["result"]["driver"]>
+  export type DriverOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "number" | "active" | "price" | "points" | "constructorId", ExtArgs["result"]["driver"]>
   export type DriverInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     constructor?: boolean | Driver$constructorArgs<ExtArgs>
     predictions?: boolean | Driver$predictionsArgs<ExtArgs>
@@ -5770,6 +5825,8 @@ export namespace Prisma {
       name: string
       number: number | null
       active: boolean
+      price: number
+      points: number
       constructorId: number | null
     }, ExtArgs["result"]["driver"]>
     composites: {}
@@ -6201,6 +6258,8 @@ export namespace Prisma {
     readonly name: FieldRef<"Driver", 'String'>
     readonly number: FieldRef<"Driver", 'Int'>
     readonly active: FieldRef<"Driver", 'Boolean'>
+    readonly price: FieldRef<"Driver", 'Float'>
+    readonly points: FieldRef<"Driver", 'Int'>
     readonly constructorId: FieldRef<"Driver", 'Int'>
   }
     
@@ -6702,56 +6761,76 @@ export namespace Prisma {
 
   export type ConstructorAvgAggregateOutputType = {
     id: number | null
+    price: number | null
+    points: number | null
   }
 
   export type ConstructorSumAggregateOutputType = {
     id: number | null
+    price: number | null
+    points: number | null
   }
 
   export type ConstructorMinAggregateOutputType = {
     id: number | null
     name: string | null
     active: boolean | null
+    price: number | null
+    points: number | null
   }
 
   export type ConstructorMaxAggregateOutputType = {
     id: number | null
     name: string | null
     active: boolean | null
+    price: number | null
+    points: number | null
   }
 
   export type ConstructorCountAggregateOutputType = {
     id: number
     name: number
     active: number
+    price: number
+    points: number
     _all: number
   }
 
 
   export type ConstructorAvgAggregateInputType = {
     id?: true
+    price?: true
+    points?: true
   }
 
   export type ConstructorSumAggregateInputType = {
     id?: true
+    price?: true
+    points?: true
   }
 
   export type ConstructorMinAggregateInputType = {
     id?: true
     name?: true
     active?: true
+    price?: true
+    points?: true
   }
 
   export type ConstructorMaxAggregateInputType = {
     id?: true
     name?: true
     active?: true
+    price?: true
+    points?: true
   }
 
   export type ConstructorCountAggregateInputType = {
     id?: true
     name?: true
     active?: true
+    price?: true
+    points?: true
     _all?: true
   }
 
@@ -6845,6 +6924,8 @@ export namespace Prisma {
     id: number
     name: string
     active: boolean
+    price: number
+    points: number
     _count: ConstructorCountAggregateOutputType | null
     _avg: ConstructorAvgAggregateOutputType | null
     _sum: ConstructorSumAggregateOutputType | null
@@ -6870,6 +6951,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
     drivers?: boolean | Constructor$driversArgs<ExtArgs>
     teams?: boolean | Constructor$teamsArgs<ExtArgs>
     _count?: boolean | ConstructorCountOutputTypeDefaultArgs<ExtArgs>
@@ -6879,21 +6962,27 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
   }, ExtArgs["result"]["constructor"]>
 
   export type ConstructorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
   }, ExtArgs["result"]["constructor"]>
 
   export type ConstructorSelectScalar = {
     id?: boolean
     name?: boolean
     active?: boolean
+    price?: boolean
+    points?: boolean
   }
 
-  export type ConstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "active", ExtArgs["result"]["constructor"]>
+  export type ConstructorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "active" | "price" | "points", ExtArgs["result"]["constructor"]>
   export type ConstructorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     drivers?: boolean | Constructor$driversArgs<ExtArgs>
     teams?: boolean | Constructor$teamsArgs<ExtArgs>
@@ -6912,6 +7001,8 @@ export namespace Prisma {
       id: number
       name: string
       active: boolean
+      price: number
+      points: number
     }, ExtArgs["result"]["constructor"]>
     composites: {}
   }
@@ -7340,6 +7431,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Constructor", 'Int'>
     readonly name: FieldRef<"Constructor", 'String'>
     readonly active: FieldRef<"Constructor", 'Boolean'>
+    readonly price: FieldRef<"Constructor", 'Float'>
+    readonly points: FieldRef<"Constructor", 'Int'>
   }
     
 
@@ -13611,7 +13704,8 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     phone_no: 'phone_no',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    role: 'role'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13644,6 +13738,8 @@ export namespace Prisma {
     name: 'name',
     number: 'number',
     active: 'active',
+    price: 'price',
+    points: 'points',
     constructorId: 'constructorId'
   };
 
@@ -13653,7 +13749,9 @@ export namespace Prisma {
   export const ConstructorScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    active: 'active'
+    active: 'active',
+    price: 'price',
+    points: 'points'
   };
 
   export type ConstructorScalarFieldEnum = (typeof ConstructorScalarFieldEnum)[keyof typeof ConstructorScalarFieldEnum]
@@ -13809,6 +13907,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+  /**
    * Reference to a field of type 'LeagueType'
    */
   export type EnumLeagueTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeagueType'>
@@ -13826,6 +13938,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -13855,20 +13981,6 @@ export namespace Prisma {
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -13884,6 +13996,7 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     phone_no?: StringFilter<"User"> | string
     created_at?: DateTimeFilter<"User"> | Date | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     ownedLeagues?: LeagueListRelationFilter
     memberships?: LeagueMemberListRelationFilter
     teams?: TeamListRelationFilter
@@ -13897,6 +14010,7 @@ export namespace Prisma {
     password?: SortOrder
     phone_no?: SortOrder
     created_at?: SortOrder
+    role?: SortOrder
     ownedLeagues?: LeagueOrderByRelationAggregateInput
     memberships?: LeagueMemberOrderByRelationAggregateInput
     teams?: TeamOrderByRelationAggregateInput
@@ -13913,6 +14027,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     created_at?: DateTimeFilter<"User"> | Date | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
     ownedLeagues?: LeagueListRelationFilter
     memberships?: LeagueMemberListRelationFilter
     teams?: TeamListRelationFilter
@@ -13926,6 +14041,7 @@ export namespace Prisma {
     password?: SortOrder
     phone_no?: SortOrder
     created_at?: SortOrder
+    role?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -13943,6 +14059,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     phone_no?: StringWithAggregatesFilter<"User"> | string
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   }
 
   export type LeagueWhereInput = {
@@ -14080,6 +14197,8 @@ export namespace Prisma {
     name?: StringFilter<"Driver"> | string
     number?: IntNullableFilter<"Driver"> | number | null
     active?: BoolFilter<"Driver"> | boolean
+    price?: FloatFilter<"Driver"> | number
+    points?: IntFilter<"Driver"> | number
     constructorId?: IntNullableFilter<"Driver"> | number | null
     predictions?: PredictionListRelationFilter
     raceResults?: RaceResultListRelationFilter
@@ -14090,6 +14209,8 @@ export namespace Prisma {
     name?: SortOrder
     number?: SortOrderInput | SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrderInput | SortOrder
     predictions?: PredictionOrderByRelationAggregateInput
     raceResults?: RaceResultOrderByRelationAggregateInput
@@ -14103,6 +14224,8 @@ export namespace Prisma {
     name?: StringFilter<"Driver"> | string
     number?: IntNullableFilter<"Driver"> | number | null
     active?: BoolFilter<"Driver"> | boolean
+    price?: FloatFilter<"Driver"> | number
+    points?: IntFilter<"Driver"> | number
     constructorId?: IntNullableFilter<"Driver"> | number | null
     predictions?: PredictionListRelationFilter
     raceResults?: RaceResultListRelationFilter
@@ -14113,6 +14236,8 @@ export namespace Prisma {
     name?: SortOrder
     number?: SortOrderInput | SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrderInput | SortOrder
     _count?: DriverCountOrderByAggregateInput
     _avg?: DriverAvgOrderByAggregateInput
@@ -14129,6 +14254,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Driver"> | string
     number?: IntNullableWithAggregatesFilter<"Driver"> | number | null
     active?: BoolWithAggregatesFilter<"Driver"> | boolean
+    price?: FloatWithAggregatesFilter<"Driver"> | number
+    points?: IntWithAggregatesFilter<"Driver"> | number
     constructorId?: IntNullableWithAggregatesFilter<"Driver"> | number | null
   }
 
@@ -14139,6 +14266,8 @@ export namespace Prisma {
     id?: IntFilter<"Constructor"> | number
     name?: StringFilter<"Constructor"> | string
     active?: BoolFilter<"Constructor"> | boolean
+    price?: FloatFilter<"Constructor"> | number
+    points?: IntFilter<"Constructor"> | number
     drivers?: DriverListRelationFilter
     teams?: TeamListRelationFilter
   }
@@ -14147,6 +14276,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     drivers?: DriverOrderByRelationAggregateInput
     teams?: TeamOrderByRelationAggregateInput
   }
@@ -14158,6 +14289,8 @@ export namespace Prisma {
     NOT?: ConstructorWhereInput | ConstructorWhereInput[]
     name?: StringFilter<"Constructor"> | string
     active?: BoolFilter<"Constructor"> | boolean
+    price?: FloatFilter<"Constructor"> | number
+    points?: IntFilter<"Constructor"> | number
     drivers?: DriverListRelationFilter
     teams?: TeamListRelationFilter
   }, "id">
@@ -14166,6 +14299,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     _count?: ConstructorCountOrderByAggregateInput
     _avg?: ConstructorAvgOrderByAggregateInput
     _max?: ConstructorMaxOrderByAggregateInput
@@ -14180,6 +14315,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Constructor"> | number
     name?: StringWithAggregatesFilter<"Constructor"> | string
     active?: BoolWithAggregatesFilter<"Constructor"> | boolean
+    price?: FloatWithAggregatesFilter<"Constructor"> | number
+    points?: IntWithAggregatesFilter<"Constructor"> | number
   }
 
   export type RaceWhereInput = {
@@ -14534,6 +14671,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberCreateNestedManyWithoutUserInput
     teams?: TeamCreateNestedManyWithoutUserInput
@@ -14547,6 +14685,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueUncheckedCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberUncheckedCreateNestedManyWithoutUserInput
     teams?: TeamUncheckedCreateNestedManyWithoutUserInput
@@ -14559,6 +14698,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUpdateManyWithoutUserNestedInput
     teams?: TeamUpdateManyWithoutUserNestedInput
@@ -14572,6 +14712,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUncheckedUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUncheckedUpdateManyWithoutUserNestedInput
     teams?: TeamUncheckedUpdateManyWithoutUserNestedInput
@@ -14585,6 +14726,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14593,6 +14735,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14602,6 +14745,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type LeagueCreateInput = {
@@ -14723,6 +14867,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     predictions?: PredictionCreateNestedManyWithoutDriverInput
     raceResults?: RaceResultCreateNestedManyWithoutDriverInput
   }
@@ -14732,6 +14878,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     constructorId?: number | null
     predictions?: PredictionUncheckedCreateNestedManyWithoutDriverInput
     raceResults?: RaceResultUncheckedCreateNestedManyWithoutDriverInput
@@ -14741,6 +14889,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     predictions?: PredictionUpdateManyWithoutDriverNestedInput
     raceResults?: RaceResultUpdateManyWithoutDriverNestedInput
   }
@@ -14750,6 +14900,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     constructorId?: NullableIntFieldUpdateOperationsInput | number | null
     predictions?: PredictionUncheckedUpdateManyWithoutDriverNestedInput
     raceResults?: RaceResultUncheckedUpdateManyWithoutDriverNestedInput
@@ -14760,6 +14912,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     constructorId?: number | null
   }
 
@@ -14767,6 +14921,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
   }
 
   export type DriverUncheckedUpdateManyInput = {
@@ -14774,12 +14930,16 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     constructorId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ConstructorCreateInput = {
     name: string
     active?: boolean
+    price?: number
+    points?: number
     drivers?: DriverCreateNestedManyWithoutConstructorInput
     teams?: TeamCreateNestedManyWithoutConstructorInput
   }
@@ -14788,6 +14948,8 @@ export namespace Prisma {
     id?: number
     name: string
     active?: boolean
+    price?: number
+    points?: number
     drivers?: DriverUncheckedCreateNestedManyWithoutConstructorInput
     teams?: TeamUncheckedCreateNestedManyWithoutConstructorInput
   }
@@ -14795,6 +14957,8 @@ export namespace Prisma {
   export type ConstructorUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     drivers?: DriverUpdateManyWithoutConstructorNestedInput
     teams?: TeamUpdateManyWithoutConstructorNestedInput
   }
@@ -14803,6 +14967,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     drivers?: DriverUncheckedUpdateManyWithoutConstructorNestedInput
     teams?: TeamUncheckedUpdateManyWithoutConstructorNestedInput
   }
@@ -14811,17 +14977,23 @@ export namespace Prisma {
     id?: number
     name: string
     active?: boolean
+    price?: number
+    points?: number
   }
 
   export type ConstructorUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
   }
 
   export type ConstructorUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
   }
 
   export type RaceCreateInput = {
@@ -15171,6 +15343,13 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type LeagueListRelationFilter = {
     every?: LeagueWhereInput
     some?: LeagueWhereInput
@@ -15218,6 +15397,7 @@ export namespace Prisma {
     password?: SortOrder
     phone_no?: SortOrder
     created_at?: SortOrder
+    role?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -15231,6 +15411,7 @@ export namespace Prisma {
     password?: SortOrder
     phone_no?: SortOrder
     created_at?: SortOrder
+    role?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15240,6 +15421,7 @@ export namespace Prisma {
     password?: SortOrder
     phone_no?: SortOrder
     created_at?: SortOrder
+    role?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -15292,6 +15474,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -15438,6 +15630,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type ConstructorNullableScalarRelationFilter = {
     is?: ConstructorWhereInput | null
     isNot?: ConstructorWhereInput | null
@@ -15468,12 +15671,16 @@ export namespace Prisma {
     name?: SortOrder
     number?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrder
   }
 
   export type DriverAvgOrderByAggregateInput = {
     id?: SortOrder
     number?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrder
   }
 
@@ -15482,6 +15689,8 @@ export namespace Prisma {
     name?: SortOrder
     number?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrder
   }
 
@@ -15490,12 +15699,16 @@ export namespace Prisma {
     name?: SortOrder
     number?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrder
   }
 
   export type DriverSumOrderByAggregateInput = {
     id?: SortOrder
     number?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
     constructorId?: SortOrder
   }
 
@@ -15505,6 +15718,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type DriverListRelationFilter = {
@@ -15521,26 +15750,36 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
   }
 
   export type ConstructorAvgOrderByAggregateInput = {
     id?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
   }
 
   export type ConstructorMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
   }
 
   export type ConstructorMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     active?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
   }
 
   export type ConstructorSumOrderByAggregateInput = {
     id?: SortOrder
+    price?: SortOrder
+    points?: SortOrder
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -15974,6 +16213,10 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type EnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role
+  }
+
   export type LeagueUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<LeagueCreateWithoutOwnerInput, LeagueUncheckedCreateWithoutOwnerInput> | LeagueCreateWithoutOwnerInput[] | LeagueUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: LeagueCreateOrConnectWithoutOwnerInput | LeagueCreateOrConnectWithoutOwnerInput[]
@@ -16312,6 +16555,14 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type ConstructorUpdateOneWithoutDriversNestedInput = {
@@ -16836,6 +17087,13 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -16892,6 +17150,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -16960,6 +17228,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -17277,6 +17561,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     memberships?: LeagueMemberCreateNestedManyWithoutUserInput
     teams?: TeamCreateNestedManyWithoutUserInput
     points?: PointsCreateNestedManyWithoutUserInput
@@ -17289,6 +17574,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     memberships?: LeagueMemberUncheckedCreateNestedManyWithoutUserInput
     teams?: TeamUncheckedCreateNestedManyWithoutUserInput
     points?: PointsUncheckedCreateNestedManyWithoutUserInput
@@ -17388,6 +17674,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     memberships?: LeagueMemberUpdateManyWithoutUserNestedInput
     teams?: TeamUpdateManyWithoutUserNestedInput
     points?: PointsUpdateManyWithoutUserNestedInput
@@ -17400,6 +17687,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     memberships?: LeagueMemberUncheckedUpdateManyWithoutUserNestedInput
     teams?: TeamUncheckedUpdateManyWithoutUserNestedInput
     points?: PointsUncheckedUpdateManyWithoutUserNestedInput
@@ -17485,6 +17773,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueCreateNestedManyWithoutOwnerInput
     teams?: TeamCreateNestedManyWithoutUserInput
     points?: PointsCreateNestedManyWithoutUserInput
@@ -17497,6 +17786,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueUncheckedCreateNestedManyWithoutOwnerInput
     teams?: TeamUncheckedCreateNestedManyWithoutUserInput
     points?: PointsUncheckedCreateNestedManyWithoutUserInput
@@ -17556,6 +17846,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUpdateManyWithoutOwnerNestedInput
     teams?: TeamUpdateManyWithoutUserNestedInput
     points?: PointsUpdateManyWithoutUserNestedInput
@@ -17568,6 +17859,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUncheckedUpdateManyWithoutOwnerNestedInput
     teams?: TeamUncheckedUpdateManyWithoutUserNestedInput
     points?: PointsUncheckedUpdateManyWithoutUserNestedInput
@@ -17576,6 +17868,8 @@ export namespace Prisma {
   export type ConstructorCreateWithoutDriversInput = {
     name: string
     active?: boolean
+    price?: number
+    points?: number
     teams?: TeamCreateNestedManyWithoutConstructorInput
   }
 
@@ -17583,6 +17877,8 @@ export namespace Prisma {
     id?: number
     name: string
     active?: boolean
+    price?: number
+    points?: number
     teams?: TeamUncheckedCreateNestedManyWithoutConstructorInput
   }
 
@@ -17653,6 +17949,8 @@ export namespace Prisma {
   export type ConstructorUpdateWithoutDriversInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     teams?: TeamUpdateManyWithoutConstructorNestedInput
   }
 
@@ -17660,6 +17958,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     teams?: TeamUncheckedUpdateManyWithoutConstructorNestedInput
   }
 
@@ -17722,6 +18022,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     predictions?: PredictionCreateNestedManyWithoutDriverInput
     raceResults?: RaceResultCreateNestedManyWithoutDriverInput
   }
@@ -17731,6 +18033,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     predictions?: PredictionUncheckedCreateNestedManyWithoutDriverInput
     raceResults?: RaceResultUncheckedCreateNestedManyWithoutDriverInput
   }
@@ -17796,6 +18100,8 @@ export namespace Prisma {
     name?: StringFilter<"Driver"> | string
     number?: IntNullableFilter<"Driver"> | number | null
     active?: BoolFilter<"Driver"> | boolean
+    price?: FloatFilter<"Driver"> | number
+    points?: IntFilter<"Driver"> | number
     constructorId?: IntNullableFilter<"Driver"> | number | null
   }
 
@@ -17945,6 +18251,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberCreateNestedManyWithoutUserInput
     points?: PointsCreateNestedManyWithoutUserInput
@@ -17957,6 +18264,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueUncheckedCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberUncheckedCreateNestedManyWithoutUserInput
     points?: PointsUncheckedCreateNestedManyWithoutUserInput
@@ -18026,6 +18334,8 @@ export namespace Prisma {
   export type ConstructorCreateWithoutTeamsInput = {
     name: string
     active?: boolean
+    price?: number
+    points?: number
     drivers?: DriverCreateNestedManyWithoutConstructorInput
   }
 
@@ -18033,6 +18343,8 @@ export namespace Prisma {
     id?: number
     name: string
     active?: boolean
+    price?: number
+    points?: number
     drivers?: DriverUncheckedCreateNestedManyWithoutConstructorInput
   }
 
@@ -18081,6 +18393,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUpdateManyWithoutUserNestedInput
     points?: PointsUpdateManyWithoutUserNestedInput
@@ -18093,6 +18406,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUncheckedUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUncheckedUpdateManyWithoutUserNestedInput
     points?: PointsUncheckedUpdateManyWithoutUserNestedInput
@@ -18180,6 +18494,8 @@ export namespace Prisma {
   export type ConstructorUpdateWithoutTeamsInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     drivers?: DriverUpdateManyWithoutConstructorNestedInput
   }
 
@@ -18187,6 +18503,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     drivers?: DriverUncheckedUpdateManyWithoutConstructorNestedInput
   }
 
@@ -18231,6 +18549,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     raceResults?: RaceResultCreateNestedManyWithoutDriverInput
   }
 
@@ -18239,6 +18559,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     constructorId?: number | null
     raceResults?: RaceResultUncheckedCreateNestedManyWithoutDriverInput
   }
@@ -18290,6 +18612,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     raceResults?: RaceResultUpdateManyWithoutDriverNestedInput
   }
 
@@ -18298,6 +18622,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     constructorId?: NullableIntFieldUpdateOperationsInput | number | null
     raceResults?: RaceResultUncheckedUpdateManyWithoutDriverNestedInput
   }
@@ -18336,6 +18662,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     predictions?: PredictionCreateNestedManyWithoutDriverInput
   }
 
@@ -18344,6 +18672,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
     constructorId?: number | null
     predictions?: PredictionUncheckedCreateNestedManyWithoutDriverInput
   }
@@ -18404,6 +18734,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     predictions?: PredictionUpdateManyWithoutDriverNestedInput
   }
 
@@ -18412,6 +18744,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     constructorId?: NullableIntFieldUpdateOperationsInput | number | null
     predictions?: PredictionUncheckedUpdateManyWithoutDriverNestedInput
   }
@@ -18422,6 +18756,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberCreateNestedManyWithoutUserInput
     teams?: TeamCreateNestedManyWithoutUserInput
@@ -18434,6 +18769,7 @@ export namespace Prisma {
     password: string
     phone_no: string
     created_at?: Date | string
+    role?: $Enums.Role
     ownedLeagues?: LeagueUncheckedCreateNestedManyWithoutOwnerInput
     memberships?: LeagueMemberUncheckedCreateNestedManyWithoutUserInput
     teams?: TeamUncheckedCreateNestedManyWithoutUserInput
@@ -18517,6 +18853,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUpdateManyWithoutUserNestedInput
     teams?: TeamUpdateManyWithoutUserNestedInput
@@ -18529,6 +18866,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phone_no?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     ownedLeagues?: LeagueUncheckedUpdateManyWithoutOwnerNestedInput
     memberships?: LeagueMemberUncheckedUpdateManyWithoutUserNestedInput
     teams?: TeamUncheckedUpdateManyWithoutUserNestedInput
@@ -18874,6 +19212,8 @@ export namespace Prisma {
     name: string
     number?: number | null
     active?: boolean
+    price?: number
+    points?: number
   }
 
   export type TeamCreateManyConstructorInput = {
@@ -18888,6 +19228,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     predictions?: PredictionUpdateManyWithoutDriverNestedInput
     raceResults?: RaceResultUpdateManyWithoutDriverNestedInput
   }
@@ -18897,6 +19239,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     predictions?: PredictionUncheckedUpdateManyWithoutDriverNestedInput
     raceResults?: RaceResultUncheckedUpdateManyWithoutDriverNestedInput
   }
@@ -18906,6 +19250,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     number?: NullableIntFieldUpdateOperationsInput | number | null
     active?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
   }
 
   export type TeamUpdateWithoutConstructorInput = {
