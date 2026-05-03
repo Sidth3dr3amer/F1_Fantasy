@@ -11,13 +11,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Siddarth3dr3amer/F1_Fantasy.git'
-            }
-        }
-
         stage('Install Backend Dependencies') {
             steps {
                 dir('Backend') {
