@@ -6,10 +6,6 @@ pipeline {
         EC2_USER = 'ubuntu'
     }
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     stages {
         stage('Install Backend Dependencies') {
             steps {
