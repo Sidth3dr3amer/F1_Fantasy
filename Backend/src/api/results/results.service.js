@@ -18,6 +18,8 @@ export const getDriverPoints = (result) => {
 
 // calculateRacePoints is idempotent: it clears previous Points and recreates them.
 export const calculateRacePoints = async (raceId, client = prisma) => {
+    console.log(`[scoring] calculateRacePoints called for race ${raceId}`)
+
     // Get results
     const results = await client.raceResult.findMany({
         where: { raceId },
@@ -27,6 +29,8 @@ export const calculateRacePoints = async (raceId, client = prisma) => {
             }
         }
     })
+
+    console.log(`[scoring] fetched ${results.length} raceResult rows for race ${raceId}`)
 
     const resultMap = {}
     const constructorPoints = {}
@@ -45,6 +49,8 @@ export const calculateRacePoints = async (raceId, client = prisma) => {
         where: { raceId },
         include: { predictions: true }
     })
+
+    console.log(`[scoring] found ${teams.length} teams for race ${raceId}`)
 
     // Clear previous points for this race
     await client.points.deleteMany({ where: { raceId } })
@@ -82,7 +88,15 @@ export const calculateRacePoints = async (raceId, client = prisma) => {
     }
 
     if (pointsData.length > 0) {
-        await client.points.createMany({ data: pointsData })
+        try {
+            await client.points.createMany({ data: pointsData })
+            console.log(`[scoring] created ${pointsData.length} points rows for race ${raceId}`)
+        } catch (err) {
+            console.error('[scoring] failed to create points:', err)
+            throw err
+        }
+    } else {
+        console.log(`[scoring] no points to create for race ${raceId}`)
     }
 }
 

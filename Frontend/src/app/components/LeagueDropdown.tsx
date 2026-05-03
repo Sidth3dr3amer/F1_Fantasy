@@ -158,7 +158,8 @@ export function LeagueDropdown({ onClose }: LeagueDropdownProps) {
                             />
                             <button
                                 onClick={handleJoinLeague}
-                                className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded transition-colors"
+                                disabled={loading || !joinCode.trim()}
+                                className="px-3 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-medium rounded transition-colors"
                                 title="Join league with code"
                             >
                                 <Search className="w-4 h-4" />

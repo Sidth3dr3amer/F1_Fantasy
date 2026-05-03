@@ -9,6 +9,8 @@ export function Leaderboard() {
 
   useEffect(() => {
     let mounted = true;
+    let intervalId: number | undefined;
+
     async function load() {
       setLoading(true);
       try {
@@ -22,8 +24,12 @@ export function Leaderboard() {
         if (mounted) setLoading(false);
       }
     }
+
     load();
-    return () => { mounted = false };
+    // Poll while component mounted so leaderboards update during simulations
+    intervalId = window.setInterval(load, 3000);
+
+    return () => { mounted = false; if (intervalId) clearInterval(intervalId); };
   }, []);
 
   const top = data?.top5 || [];

@@ -4,6 +4,8 @@ import { calculateRacePoints } from '../results/results.service.js'
 const computeStatus = (race) => {
     // If a race has been explicitly marked COMPLETED in the DB, respect that.
     if (race.status === 'COMPLETED') return 'COMPLETED'
+    // If the race has been explicitly set to ONGOING (eg. simulation), respect that
+    if (race.status === 'ONGOING') return 'ONGOING'
 
     const now = new Date()
     if (now < race.raceStart) return 'SCHEDULED'

@@ -13,6 +13,9 @@ export function Admin() {
     const [message, setMessage] = useState<string | null>(null);
     const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
     const [raceMeta, setRaceMeta] = useState<any | null>(null);
+    const [simRunning, setSimRunning] = useState<boolean>(false);
+    const [simLoading, setSimLoading] = useState<boolean>(false);
+    const [simStatus, setSimStatus] = useState<string | null>(null);
 
     useEffect(() => {
         loadRaces();
@@ -74,6 +77,15 @@ export function Admin() {
             })));
 
             setRaceMeta(raceInfo || null);
+            // fetch simulation status
+            try {
+                const status = await api.get(`/simulation/${raceId}/status`);
+                setSimRunning(!!status.running);
+                setSimStatus(status.status || null);
+            } catch (err) {
+                setSimRunning(false);
+                setSimStatus(null);
+            }
         } catch (err: any) {
             console.error('Failed to load results', err);
             setMessage(err?.message || 'Failed to load results');
@@ -181,11 +193,56 @@ export function Admin() {
         try {
             await api.post(`/results/calculate/${selectedRaceId}`);
             setMessage('Recalculation finished');
+            // update sim status after recalculation
+            try {
+                const status = await api.get(`/simulation/${selectedRaceId}/status`);
+                setSimRunning(!!status.running);
+                setSimStatus(status.status || null);
+            } catch (err) {
+                setSimRunning(false);
+                setSimStatus(null);
+            }
         } catch (err: any) {
             console.error('Recalc failed', err);
             setMessage(err?.message || 'Failed to recalculate');
         } finally {
             setSaving(false);
+        }
+    }
+
+    async function startSimulation() {
+        if (!selectedRaceId) return;
+        setSimLoading(true);
+        setMessage(null);
+        try {
+            await api.post(`/simulation/start/${selectedRaceId}`);
+            setMessage('Simulation started');
+            const status = await api.get(`/simulation/${selectedRaceId}/status`);
+            setSimRunning(!!status.running);
+            setSimStatus(status.status || null);
+        } catch (err: any) {
+            console.error('Start simulation failed', err);
+            setMessage(err?.message || 'Failed to start simulation');
+        } finally {
+            setSimLoading(false);
+        }
+    }
+
+    async function stopSimulation() {
+        if (!selectedRaceId) return;
+        setSimLoading(true);
+        setMessage(null);
+        try {
+            await api.post(`/simulation/stop/${selectedRaceId}`);
+            setMessage('Simulation stopped');
+            const status = await api.get(`/simulation/${selectedRaceId}/status`);
+            setSimRunning(!!status.running);
+            setSimStatus(status.status || null);
+        } catch (err: any) {
+            console.error('Stop simulation failed', err);
+            setMessage(err?.message || 'Failed to stop simulation');
+        } finally {
+            setSimLoading(false);
         }
     }
 
@@ -249,8 +306,14 @@ export function Admin() {
                             )}
                         </div>
                         <div className="flex items-center gap-2">
-                            <button onClick={recalcOnly} disabled={saving} className="px-3 py-1 bg-amber-700 hover:bg-amber-600 rounded text-sm">Recalculate Only</button>
-                            <button onClick={saveResults} disabled={saving} className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">Save & Recalculate</button>
+                            <div className="text-sm text-zinc-400 mr-2">Simulation: <span className={`font-medium ${simRunning ? 'text-emerald-400' : 'text-zinc-500'}`}>{simRunning ? 'Running' : 'Stopped'}</span></div>
+                            <button onClick={recalcOnly} disabled={saving} className="px-3 py-1 bg-amber-700 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Recalculate Only</button>
+                            <button onClick={saveResults} disabled={saving} className="px-3 py-1 bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Save & Recalculate</button>
+                            {simRunning ? (
+                                <button onClick={stopSimulation} disabled={simLoading} className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Stop Simulation</button>
+                            ) : (
+                                <button onClick={startSimulation} disabled={simLoading} className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm">Start Simulation</button>
+                            )}
                         </div>
                     </div>
 

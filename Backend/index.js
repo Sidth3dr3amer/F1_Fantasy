@@ -12,6 +12,7 @@ import leaderboardRoutes from './src/api/leaderboard/leaderboard.routes.js';
 import driverRoutes from './src/api/drivers/drivers.routes.js';
 import constructorRoutes from './src/api/constructors/constructors.routes.js';
 import adminRoutes from './src/api/admin/admin.routes.js';
+import simulationRoutes from './src/api/simulation/simulation.routes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/leaderboard', leaderboardRoutes);
 app.use('/drivers', driverRoutes);
 app.use('/constructors', constructorRoutes);
 app.use('/admin', adminRoutes);
+app.use('/simulation', simulationRoutes);
 
 app.listen(4000, () => {
     console.log('Server running on port 4000');

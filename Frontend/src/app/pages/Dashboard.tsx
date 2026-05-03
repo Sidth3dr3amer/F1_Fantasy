@@ -135,8 +135,9 @@ export function Dashboard() {
               className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-white mb-4"
             />
             <div className="flex justify-end gap-3">
-              <button onClick={() => setShowJoinModal(false)} className="px-4 py-2 rounded-lg font-medium text-zinc-400 hover:text-white">Cancel</button>
+              <button disabled={submitting} type="button" onClick={() => setShowJoinModal(false)} className="px-4 py-2 rounded-lg font-medium text-zinc-400 hover:text-white disabled:opacity-50">Cancel</button>
               <button
+                type="button"
                 onClick={async () => {
                   try {
                     setSubmitting(true);
@@ -172,8 +173,9 @@ export function Dashboard() {
               className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-white mb-4"
             />
             <div className="flex justify-end gap-3">
-              <button onClick={() => setShowCreateModal(false)} className="px-4 py-2 rounded-lg font-medium text-zinc-400 hover:text-white">Cancel</button>
+              <button disabled={submitting} type="button" onClick={() => setShowCreateModal(false)} className="px-4 py-2 rounded-lg font-medium text-zinc-400 hover:text-white disabled:opacity-50">Cancel</button>
               <button
+                type="button"
                 onClick={async () => {
                   try {
                     setSubmitting(true);
