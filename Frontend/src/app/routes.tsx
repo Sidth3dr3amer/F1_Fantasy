@@ -55,7 +55,7 @@ export const router = createBrowserRouter([
       { path: "league/:leagueId", Component: League },
       { path: "league/:leagueId/race/:raceId/team-builder", Component: TeamBuilder },
       { path: "league/:leagueId/race/:raceId/results", Component: Results },
-        { path: "admin", Component: Admin },
+      { path: "admin", Component: Admin },
       { path: "leaderboard", Component: Leaderboard },
       { path: "*", Component: () => <Navigate to="/" replace /> }
     ],

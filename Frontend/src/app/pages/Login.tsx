@@ -70,7 +70,7 @@ export function Login() {
                 placeholder="••••••••"
               />
             </div>
-            
+
             <div className="pt-2">
               <button
                 type="submit"

@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { Trophy, Users, LayoutDashboard, LogOut, Menu, X, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { LeagueDropdown } from "./LeagueDropdown";
@@ -8,6 +8,7 @@ export function Layout() {
   const [leagueDropdownOpen, setLeagueDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -19,6 +20,34 @@ export function Layout() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    const t = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (!t) {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    const t = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    try {
+      if (t) {
+        const base = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+        await fetch(`${base}/auth/logout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` }
+        });
+      }
+    } catch (err) {
+      console.warn('Logout API failed', err);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      navigate('/login', { replace: true });
+    }
+  };
 
   const navItems = [
     { name: "Dashboard", path: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
@@ -78,13 +107,13 @@ export function Layout() {
         </nav>
 
         <div className="p-4 border-t border-zinc-800">
-          <Link
-            to="/login"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors"
+          <button
+            onClick={handleLogout}
+            className="w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -139,14 +168,13 @@ export function Layout() {
           )}
 
           <div className="mt-auto pt-4 border-t border-zinc-800">
-            <Link
-              to="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-4 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors"
+            <button
+              onClick={() => { setIsMobileMenuOpen(false); handleLogout(); }}
+              className="w-full text-left flex items-center gap-3 px-4 py-4 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors"
             >
               <LogOut className="w-5 h-5" />
               <span className="font-medium text-lg">Logout</span>
-            </Link>
+            </button>
           </div>
         </div>
       )}
