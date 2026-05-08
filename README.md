@@ -123,17 +123,19 @@ npm start
 
 ### Home Page
 
-Add screenshot here.
+<img width="713" height="353" alt="image" src="https://github.com/user-attachments/assets/aafa27d0-12f8-4bec-8775-1b3f3ce6174e" />
 
 ```md
 ![Home](./screenshots/home.png)
 ```
 
 ### Team Dashboard
+<img width="450" height="300" alt="image" src="https://github.com/user-attachments/assets/9d0b2568-2206-44bd-8b28-393a816953f3" />
 
 ```md
 ![Dashboard](./screenshots/dashboard.png)
 ```
+<img width="443" height="207" alt="image" src="https://github.com/user-attachments/assets/c4f54ebb-8bfc-48db-8e40-bd39b38dea11" />
 
 ### League Standings
 
@@ -142,6 +144,7 @@ Add screenshot here.
 ```
 
 ---
+<img width="390" height="300" alt="image" src="https://github.com/user-attachments/assets/bfeb2886-0376-4772-8054-bd01151e5d11" />
 
 ## 🏎️ How Fantasy Scoring Works
 
