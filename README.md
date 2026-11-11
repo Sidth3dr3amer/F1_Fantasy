@@ -1,10 +1,3 @@
-# webhook test
-# pipeline test Sunday 03 May 2026 08:14:21 PM IST
-# pipeline test Sunday 03 May 2026 08:30:32 PM IST
-| Pipeline test | Tue May 05 2026 03:33 PM IST | Floyd (git push) |
-| Pipeline test | Tue May 05 2026 03:56 PM IST | Floyd (git push) |
-
-I created a polished README template for your [F1 Fantasy repository](https://github.com/Sidth3dr3amer/F1_Fantasy?utm_source=chatgpt.com) with:
 # 🏎️ F1 Fantasy
 
 A full-stack Formula 1 Fantasy League platform where users can build teams, join leagues, track race weekends, and compete based on real-world F1 performance.
